@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+    特殊字符可以用一下字符代替 &gt; > &lt; < &amp; & &apos; ' &quot; "
+    也可以使用 <![CDATA[字符 ]]>
+-->
+
+<mapper namespace="port">
+    <resultMap id="baseMap" type="net.app.po.CPort">
+        <id column="id" property="id"/>
+        <result column="update_user" property="update_user"/>
+        <result column="update_time" property="update_time"/>
+        <result column="port_img_id" property="port_img_id"/>
+        <result column="yard_img_id" property="yard_img_id"/>
+        <result column="port_cod" property="port_cod"/>
+        <result column="c_port_nam" property="c_port_nam"/>
+        <result column="e_port_nam" property="e_port_nam"/>
+        <result column="create_user" property="create_user"/>
+        <result column="create_time" property="create_time"/>
+    </resultMap>
+
+    <!-- 查询C_PORT -->
+    <select id="select" parameterType="net.app.po.CPort" resultMap="baseMap">
+        select
+        *
+        from c_port
+        <where>
+            <if test="update_user != null and update_user != ''">
+                and update_user = #{update_user}
+            </if>
+            <if test="update_time != null and update_time != ''">
+                and update_time = #{update_time}
+            </if>
+            <if test="port_img_id != null and port_img_id != ''">
+                and port_img_id = #{port_img_id}
+            </if>
+            <if test="yard_img_id != null and yard_img_id != ''">
+                and yard_img_id = #{yard_img_id}
+            </if>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="port_cod != null and port_cod != ''">
+                and port_cod = #{port_cod}
+            </if>
+            <if test="c_port_nam != null and c_port_nam != ''">
+                and c_port_nam = #{c_port_nam}
+            </if>
+            <if test="e_port_nam != null and e_port_nam != ''">
+                and e_port_nam = #{e_port_nam}
+            </if>
+            <if test="create_user != null and create_user != ''">
+                and create_user = #{create_user}
+            </if>
+            <if test="create_time != null and create_time != ''">
+                and create_time = #{create_time}
+            </if>
+        </where>
+        <!-- <if test="_ORDER_STR != null"> order by name </if> <if test="_ORDER_STR == null"> order by create_time desc </if> -->
+    </select>
+
+    <!-- 新增C_PORT -->
+    <insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="net.app.po.CPort">
+        insert into c_port
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                update_user,
+                update_time,
+                port_img_id,
+                yard_img_id,
+                port_cod,
+                c_port_nam,
+                e_port_nam,
+                create_user,
+                create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                #{update_user},
+                #{update_time},
+                #{port_img_id},
+                #{yard_img_id},
+                #{port_cod},
+                #{c_port_nam},
+                #{e_port_nam},
+                #{create_user},
+                #{create_time},
+        </trim>
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update" parameterType="net.app.po.CPort">
+        update c_port
+        <set>
+            <if test="update_user != null">
+                update_user=#{update_user},
+            </if>
+            <if test="update_time != null">
+                update_time=#{update_time},
+            </if>
+            <if test="port_img_id != null">
+                port_img_id=#{port_img_id},
+            </if>
+            <if test="yard_img_id != null">
+                yard_img_id=#{yard_img_id},
+            </if>
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="port_cod != null">
+                port_cod=#{port_cod},
+            </if>
+            <if test="c_port_nam != null">
+                c_port_nam=#{c_port_nam},
+            </if>
+            <if test="e_port_nam != null">
+                e_port_nam=#{e_port_nam},
+            </if>
+            <if test="create_user != null">
+                create_user=#{create_user},
+            </if>
+            <if test="create_time != null">
+                create_time=#{create_time},
+            </if>
+        </set>
+          <where>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </where>
+    </update>
+
+    <!-- 删除C_PORT -->
+    <delete id="delete" parameterType="int">
+		delete from c_portT where id=#{id}
+	</delete>
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="baseMap" parameterType="int">
+        select ID,PORT_COD, C_PORT_NAM,E_PORT_NAM ,CREATE_USER,CREATE_TIME,
+        UPDATE_USER, UPDATE_TIME,PORT_IMG_ID,YARD_IMG_ID
+        from C_PORT
+        where ID = #{id}
+    </select>
+
+    <!-- 查询C_PORT -->
+    <select id="query" parameterType="net.app.po.CPort" resultType="map">
+        select id,
+        update_user,
+        update_time,
+        port_cod,
+        c_port_nam,
+        e_port_nam,
+        create_user,
+        create_time,
+        port_img_id,
+        yard_img_id,
+        (select save_file_name from c_file where port_img_id = id) save_file_name
+        from c_port
+        <where>
+            <if test="update_user != null and update_user != ''">
+                and update_user = #{update_user}
+            </if>
+            <if test="update_time != null and update_time != ''">
+                and update_time = #{update_time}
+            </if>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="port_cod != null and port_cod != ''">
+                and port_cod = #{port_cod}
+            </if>
+            <if test="c_port_nam != null and c_port_nam != ''">
+                and c_port_nam like '%'||#{c_port_nam}||'%'
+            </if>
+            <if test="e_port_nam != null and e_port_nam != ''">
+                and e_port_nam = #{e_port_nam}
+            </if>
+            <if test="create_user != null and create_user != ''">
+                and create_user = #{create_user}
+            </if>
+            <if test="create_time != null and create_time != ''">
+                and create_time = #{create_time}
+            </if>
+            <if test="port_img_id != null and port_img_id != ''">
+                and port_img_id = #{port_img_id}
+            </if>
+            <if test="yard_img_id != null and yard_img_id != ''">
+                and yard_img_id = #{yard_img_id}
+            </if>
+        </where>
+        ORDER by create_time desc
+        <!-- <if test="_ORDER_STR != null"> order by name </if> <if test="_ORDER_STR == null"> order by create_time desc </if> -->
+    </select>
+
+    <!--获得码头列表-->
+    <select id="getPortList" resultType="map">
+        select p.id,
+        p.port_cod,
+        p.c_port_nam,
+        (select file_path from c_file where id = p.port_img_id)) file_path
+        from c_port p
+    </select>
+
+    <!--获得码头列表-->
+    <select id="getLogoUrl" parameterType="int" resultType="String">
+select f.save_file_name
+  from c_port p
+  left join c_file f
+    on p.port_img_id = f.id
+ where p.id = #{id}
+    </select>
+    <!--获得码头列表-->
+    <select id="getYardUrl" parameterType="String" resultType="int">
+        select f.save_file_name
+        from c_port p
+        left join c_file f
+        on p.yard_img_id = f.id
+        where p.id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+<!-- 对于注解的Handler可以单个配置 实际开发中建议使用组件扫描 -->
+<!-- 可以扫描controller ，service。。。
+     这里让扫描controller，指定controller的包 -->
+      <!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
+     <context:component-scan base-package="net.app.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+     </context:component-scan>
+
+  <!-- 注解映射器 -->
+ <!--  <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+ 注解适配器  
+ <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/> 
+--><!--使用mvc:annotation-driven代替上边注解映射器和注解适配器配置 
+默认加载了很多参数绑定方法，比如json转换解析器
+实际开发使用如下 -->
+<mvc:annotation-driven></mvc:annotation-driven>
+
+<!-- 视图解析器
+解析jsp，默认使用jstl标签，classpath下要有jstl的包
+  -->
+ <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+   <!-- 配置jsp路径的前缀 -->
+   <property name="prefix" value="/WEB-INF/jsp/"></property>
+   <!-- 配置jsp路径的后缀 -->
+   <property name="suffix" value=".jsp"></property>
+   </bean>
+   <!-- 文件上传配置 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="maxUploadSize">
+            <value>10000000</value><!-- 上传文件大小限制为100M -->
+        </property>
+    </bean>
+    </beans>

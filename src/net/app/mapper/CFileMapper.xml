@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+    特殊字符可以用一下字符代替 &gt; > &lt; < &amp; & &apos; ' &quot; "
+    也可以使用 <![CDATA[字符 ]]>
+-->
+
+<mapper namespace="file">
+
+    <resultMap id="baseMap" type="net.app.po.CFile">
+        <id column="id" property="id"/>
+        <result column="file_name" property="file_name"/>
+        <result column="file_path" property="file_path"/>
+        <result column="create_user" property="create_user"/>
+        <result column="create_time" property="create_time"/>
+        <result column="update_user" property="update_user"/>
+        <result column="update_time" property="update_time"/>
+        <result column="save_file_name" property="save_file_name"/>
+    </resultMap>
+
+    <!-- 查询C_FILE -->
+    <select id="select" parameterType="net.app.po.CFile" resultMap="baseMap">
+        select
+        *
+        from C_FILE
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="file_name != null and file_name != ''">
+                and file_name = #{file_name}
+            </if>
+            <if test="file_path != null and file_path != ''">
+                and file_path = #{file_path}
+            </if>
+            <if test="create_user != null and create_user != ''">
+                and create_user = #{create_user}
+            </if>
+            <if test="create_time != null and create_time != ''">
+                and create_time = #{create_time}
+            </if>
+            <if test="update_user != null and update_user != ''">
+                and update_user = #{update_user}
+            </if>
+            <if test="update_time != null and update_time != ''">
+                and update_time = #{update_time}
+            </if>
+            <if test="save_file_name != null and save_file_name != ''">
+                and save_file_name = #{save_file_name}
+            </if>
+        </where>
+        <!-- <if test="_ORDER_STR != null"> order by name </if> <if test="_ORDER_STR == null"> order by create_time desc </if> -->
+    </select>
+
+    <!-- 新增C_FILE -->
+    <insert id="insert" parameterType="net.app.po.CFile"  useGeneratedKeys="true" keyProperty="id">
+        insert into C_FILE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="file_name != null">
+                file_name,
+            </if>
+            <if test="file_path != null">
+                file_path,
+            </if>
+            <if test="create_user != null">
+                create_user,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_user != null">
+                update_user,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="save_file_name != null">
+                save_file_name
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="file_name != null">
+                #{file_name},
+            </if>
+            <if test="file_path != null">
+                #{file_path},
+            </if>
+            <if test="create_user != null">
+                #{create_user},
+            </if>
+            <if test="create_time != null">
+                #{create_time},
+            </if>
+            <if test="update_user != null">
+                #{update_user},
+            </if>
+            <if test="update_time != null">
+                #{update_time},
+            </if>
+            <if test="save_file_name != null">
+                #{save_file_name}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update" parameterType="net.app.po.CFile">
+        update C_FILE
+        <set>
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="file_name != null">
+                file_name=#{file_name},
+            </if>
+            <if test="file_path != null">
+                file_path=#{file_path},
+            </if>
+            <if test="create_user != null">
+                create_user=#{create_user},
+            </if>
+            <if test="create_time != null">
+                create_time=#{create_time},
+            </if>
+            <if test="update_user != null">
+                update_user=#{update_user},
+            </if>
+            <if test="update_time != null">
+                update_time=#{update_time},
+            </if>
+            <if test="save_file_name != null">
+                save_file_name=#{save_file_name},
+            </if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+        </where>
+    </update>
+
+    <!-- 删除C_FILE -->
+    <delete id="delete" parameterType="int">
+		delete from C_FILE where id=#{id}
+	</delete>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="baseMap" parameterType="int">
+        select ID, file_name, file_path, create_user, create_time,
+        update_user, update_time,save_file_name
+        from C_FILE
+        where ID = #{id}
+    </select>
+</mapper>

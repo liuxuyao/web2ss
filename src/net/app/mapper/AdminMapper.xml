@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+    特殊字符可以用一下字符代替 &gt; > &lt; < &amp; & &apos; ' &quot; "
+    也可以使用 <![CDATA[字符 ]]>
+-->
+<mapper namespace="admin" >
+  <resultMap type="net.app.po.admin" id="adminMap">
+     <result column="adminname" property="adminname"/>
+      <result column="id" property="id"/>
+       <result column="password" property="password"/>
+  </resultMap>
+  
+  <select id="validateNamePwd" resultMap="adminMap" parameterType="Map">
+     select * from admin
+     <where>
+        <if test="adminname!=null and adminname !=''">
+           adminname=#{adminname}
+        </if>
+        <if test="password!=null and password !='' ">
+           password=#{password}
+        </if>
+     </where>
+  </select>
+</mapper>
